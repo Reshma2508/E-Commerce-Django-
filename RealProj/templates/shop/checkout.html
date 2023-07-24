@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+
+        <div class="row ">
+            <div class="col-md-12">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <a class="navbar-brand" href="#">Reshma Shop</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                      <ul class="navbar-nav">
+                        <li class="nav-item active">
+                          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        </li>
+                          {% if user.is_authenticated %}
+                           <li class="nav-item">
+                          <a class="nav-link">Welcome: {{user.username}}</a>
+                        </li>
+                          {%else%}
+
+                          <li class="nav-item">
+                          <a class="nav-link" href="/signup">Signup</a>
+                        </li>
+                          <li class="nav-item">
+                          <a class="nav-link" href="accounts/login">Login</a>
+                        </li>
+                           </li>
+                          {%endif%}
+                          <li class="nav-item">
+                          <a class="nav-link" href="accounts/logout">Logout</a>
+                        </li>
+                           {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="/cart" id="cart" data-html="true" type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus
+                            sagittis lacus vel augue laoreet rutrum faucibus.">
+                              Cart
+                            </a>
+                        </li>
+                          {%endif%}
+
+                      </ul>
+                    </div>
+                  </nav>
+            </div>
+        </div>
+
+   <div class="container">
+    <div class="row m-5">
+      <div class="col-md-12">
+        <h1>Review your order</h1>
+        <hr>
+      </div>
+    </div>
+    <div class="row m-5">
+      <div class="col-md-12">
+        <h4>Items in your cart</h4>
+
+          <table border="1">
+              <thead>
+              <th>Item Name</th>
+              <th>Quantity</th>
+              <th>Discount Price</th>
+              </thead>
+               {% for cart_item in cart_items %}
+              <tr>
+                  <td>{{ cart_item.product.title}} </td>
+                  <td>{{ cart_item.quantity }} </td>
+                  <td> {{ cart_item.product.discount_price }} RS.</td>
+
+              </tr>
+
+              {%endfor%}
+
+              <tr><td colspan="3">Total Price:  {{ total_price }} RS</td></tr>
+              <tr><a href="/cart">Go Back to Cart</a></tr>
+          </table>
+        <hr>
+      </div>
+    </div>
+      <div class="row m-5">
+        <div class="col-md-12">
+
+                    <ul class="list-group" id="item_list">
+
+                    </ul>
+            </div>
+        </div>
+
+        <div class="row m-5">
+      <div class="col-md-12">
+        <h1>Enter shipping details</h1>
+        <hr>
+      </div>
+    </div>
+        <div class="row m-5">
+          <div class="col-md-12">
+              <form method="POST" >
+                {% csrf_token %}
+                    <input type="hidden" id="items" name="items">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputEmail4">Name</label>
+                      <input id="name" name="name" type="text" class="form-control" id="inputEmail4" placeholder="John">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="inputPassword4">Email</label>
+                      <input id="email" name="email" type="text" class="form-control" id="inputPassword4" placeholder="john@john.com">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputAddress">Address</label>
+                    <input id="address" name="address" type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputCity">City</label>
+                      <input id="city" name="city" type="text" class="form-control" id="inputCity">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="inputState">State</label>
+                      <input id="state" name="state" type="text" class="form-control" id="inputCity">
+
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="inputZip">Zip</label>
+                      <input id="zipcode" name="zipcode" type="text" class="form-control" id="inputZip">
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="inputZip">Amount to be paid</label>
+                      <input readonly="" type="text" class="form-control" id="total" name="total">
+                    </div>
+                  </div>
+
+
+                  <button type="submit" class="btn btn-warning">Place Order</button>
+                </form>
+
+          </div>
+
+        </div>
+    </div>
+</body>
+</html>

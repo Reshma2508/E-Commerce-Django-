@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+
+        <div class="row ">
+            <div class="col-md-12">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <a class="navbar-brand" href="#">Reshma Shop</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                      <ul class="navbar-nav">
+                        <li class="nav-item active">
+                          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        </li>
+                          {% if user.is_authenticated %}
+                           <li class="nav-item">
+                          <a class="nav-link">Welcome: {{user.username}}</a>
+                        </li>
+                          {%else%}
+
+                          <li class="nav-item">
+                          <a class="nav-link" href="/signup">Signup</a>
+                        </li>
+                          <li class="nav-item">
+                          <a class="nav-link" href="accounts/login">Login</a>
+                        </li>
+                           </li>
+                          {%endif%}
+                          <li class="nav-item">
+                          <a class="nav-link" href="accounts/logout">Logout</a>
+                        </li>
+                           {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="/cart" id="cart" data-html="true" type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus
+                            sagittis lacus vel augue laoreet rutrum faucibus.">
+                              Cart
+                            </a>
+                        </li>
+                          {%endif%}
+
+                      </ul>
+                    </div>
+                  </nav>
+            </div>
+        </div>
+
+    <h1>Your Cart</h1>
+    <div class="col-md-12">
+                        {% if user.is_authenticated %}
+                        <h1>{{user.username}}</h1>
+                            <h1>{{user.email}}</h1>
+
+                        {%endif%}
+                    </div>
+    <ul>
+
+
+
+
+
+        {% for cart_item in cart_items %}
+        <li>{{ cart_item.product.title}} - Quantity: {{ cart_item.quantity }} - Price: {{ cart_item.product.discount_price }} RS.</li>
+        <a href="{% url 'remove_from_cart' id=cart_item.product.id %}">Remove from Cart</a>
+        {% endfor %}
+
+    </ul>
+    <p>Total Price: {{ total_price }} RS.</p>
+        <a href="/" btn btn-warning>Go Back for more Shopping</a>
+
+        <br><br>
+        <button class=" btn btn-warning"><a href="/checkout">Checkout</a></button>
+</body>
+</html>
+
